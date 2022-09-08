@@ -1,6 +1,6 @@
 pipeline {
     
-    tool {
+    tools {
         maven 'Maven 3.5.4'
     }
 
