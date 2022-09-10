@@ -49,12 +49,12 @@ pipeline {
         always {
             echo 'Build pipeline fro worker is completed'
         }
-        failure{
-            slackSend (channel "my-slack-notified" message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
-        }
-        success{
-            slackSend (channel "my-slack-notified", message: "Build Succeeded: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
-        }
+        // failure{
+        //     slackSend (channel "my-slack-notified" message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+        // }
+        // success{
+        //     slackSend (channel "my-slack-notified", message: "Build Succeeded: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+        // }
     }
 
     
