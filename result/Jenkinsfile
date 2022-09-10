@@ -1,14 +1,15 @@
 pipeline {
+    agent any
     
     tools {
         nodejs 'NodeJS 8.9.0'
     }
 
-    agent any 
+   
     stages {
         stage('Build') { 
             when {
-                changeset '**/result/**'
+                changeset '**/workerresult/**'
             }
             steps {
                 echo 'Compiling result app'
@@ -25,30 +26,30 @@ pipeline {
             steps {
                 echo 'Running unit Test on result app' 
                 dir('result'){
-                sh 'npm install'     
-                sh 'npm test' 
+                sh 'npm install'    
+                sh 'nmp test' 
                 }
             }
         }
-    //     stage('Package') { 
-    //         when {
-    //             branch 'main'
-    //             changeset '**/result/**'
-    //         }
-    //         steps {
-    //             echo 'Packaging worker app' 
-    //             dir('worker'){
-    //             sh 'mvn package -DskipTests' 
-    //             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-    //             }
-    //         }
-    //     }
+        // stage('Package') { 
+        //     when {
+        //         branch 'main'
+        //         changeset '**/worker/**'
+        //     }
+        //     steps {
+        //         echo 'Packaging worker app' 
+        //         dir('worker'){
+        //         sh 'mvn package -DskipTests' 
+        //         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+        //         }
+        //     }
+        // }
     
-    // }
+    }
 
     post {
         always {
-            echo 'Build pipeline for result is completed'
+            echo 'Build pipeline fro worker is completed'
         }
         // failure{
         //     slackSend (channel "my-slack-notified" message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
