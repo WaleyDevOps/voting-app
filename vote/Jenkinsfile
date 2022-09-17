@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'maven 3.6.1-jdk-8-slim'
+    }
+
+   
+    stages {
+        stage('Build') { 
+            when {
+                changeset '**/vote/**'
+            }
+            steps {
+                echo 'Compiling vote app'
+                dir('vote'){
+                sh 'pip install -r requirement.txt' 
+                }
+                
+            }
+        }
+        stage('Test') { 
+            when {
+                changeset '**/vote/**'
+            }
+            steps {
+                echo 'Running unit Test on result app' 
+                dir('result'){
+                sh 'nosetests -v'    
+                
+                }
+            }
+        }
+        // stage('Package') { 
+        //     when {
+        //         branch 'main'
+        //         changeset '**/worker/**'
+        //     }
+        //     steps {
+        //         echo 'Packaging worker app' 
+        //         dir('worker'){
+        //         sh 'mvn package -DskipTests' 
+        //         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+        //         }
+        //     }
+        // }
+    
+    }
+
+    post {
+        always {
+            echo 'Build pipeline fro worker is completed'
+        }
+        // failure{
+        //     slackSend (channel "my-slack-notified" message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+        // }
+        // success{
+        //     slackSend (channel "my-slack-notified", message: "Build Succeeded: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+        // }
+    }
+
+    
+}
